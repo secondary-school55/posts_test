@@ -10,8 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
+    steps:      
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
@@ -19,10 +18,10 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/.npm
             .git
-          key: npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
+          key: cache-posts
+          restore-keys: cache-posts
+      - uses: actions/checkout@v2
       - run: |
           npm ci
           node index.js
