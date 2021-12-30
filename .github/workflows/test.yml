@@ -17,14 +17,13 @@ jobs:
       - name: Cache
         uses: actions/cache@v2
         with:
-          path: |
-            .git
-          key: cache-posts
-          restore-keys: cache-posts
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: modules-
       - uses: actions/checkout@v2
-      - run: |
-          npm ci
-          node index.js
+      - if: steps.cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - run: node index.js
       - name: Commit report
         run: |
           git config --global user.name 'school55'
