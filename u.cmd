@@ -3,4 +3,4 @@
 git add *
 git commit -m update
 git tag latest
-git push
+rem git push
