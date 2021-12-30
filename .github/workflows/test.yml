@@ -30,4 +30,4 @@ jobs:
           git config --global user.name 'school55'
           git config --global user.email 'kzh55@ukr.net'          
           git commit -am "Automated report"
-          git push
+          (git push) || true
