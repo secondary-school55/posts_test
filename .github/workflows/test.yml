@@ -10,23 +10,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:      
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: data
+          
+      - run: (git pull) || true
+          
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+      
       - name: Cache
         uses: actions/cache@v2
         with:
           path: ./node_modules
           key: modules-${{ hashFiles('package-lock.json') }}
-          restore-keys: modules-
-      - uses: actions/checkout@v2
+          restore-keys: modules-          
+
       - if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
+        
       - run: node index.js
+      
       - name: Commit report
         run: |
           git config --global user.name 'school55'
           git config --global user.email 'kzh55@ukr.net'          
           (git commit -am "Generate index") || true 
           (git push) || true
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: data
+          path: |
+            .git
+            public
