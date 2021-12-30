@@ -11,12 +11,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/download-artifact@v2
+      - id: download
+        uses: actions/download-artifact@v2
         continue-on-error: true
         with:
-          name: data          
+          name: data
           
-      - run: (git pull) || true
+      - if: steps.download.outcome != 'success'
+        uses: actions/checkout@v2
+        
+      - if: steps.download.outcome == 'success'
+        run: (git pull) || true
           
       - uses: actions/setup-node@v2
         with:
