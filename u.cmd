@@ -2,5 +2,5 @@
 
 git add *
 git commit -m update
-git tag latest
+git tag posts
 rem git push
